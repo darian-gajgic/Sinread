@@ -81,8 +81,14 @@ cat <<EOF2
 
 Done.
 
-  Try it:    select any text, then press $KEY
+  Try it:    select any text, then press $KEY   <- nothing to start, just press it
   Again:     press $KEY while it reads to stop
-  Window:    launch "Sinread" from the app menu (status + settings)
+
+  Settings and status live in a window you only need if you want to change something.
+  Open it any of these ways:
+    - Start button (bottom-left) -> type "Sinread" -> Enter
+    - the "Sinread" icon on your desktop
+    - $HERE/sinread-trigger show
+
   Uninstall: python3 $HERE/hotkey.py remove && rm -f ~/.local/share/applications/sinread.desktop
 EOF2

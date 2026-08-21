@@ -33,24 +33,42 @@ cd ~/Sinread
 ```
 
 That creates the venv, fetches the voices, registers the GNOME shortcut (appending to the
-shared list, so the wisprflow and Sinlate hotkeys are untouched), and adds a "Sinread" entry
-to the app menu.
+shared list, so the wisprflow and Sinlate hotkeys are untouched), and adds a **Sinread** entry
+to the Start menu and an icon on the desktop.
 
 ## Using it
 
-- **Read**: highlight text in any app → press `Numpad +`. A pill appears at the right edge showing
-  the language, the sentence being spoken, and progress.
+**There is nothing to start.** Highlight text in any app and press `Numpad +`. If Sinread
+is not running yet the keypress starts it — you never have to launch it by hand.
+
+- **Read**: highlight text → press `Numpad +`. A pill appears at the right edge showing the
+  language, the sentence being spoken, and progress.
 - **Stop**: press `Numpad +` again. Audio cuts immediately.
-- **Pause / resume**: the buttons in the main window, or `sinread-trigger pause`. `Numpad +`
+- **Pause / resume**: the buttons in the window, or `./sinread-trigger pause`. `Numpad +`
   resumes from a pause rather than stopping.
-- **Main window**: launch *Sinread* from the app menu, or `./sinread-trigger show`.
-  - **Status** — what it is doing, and whether the model is resident, with the unload
-    countdown running down in front of you.
-  - **Settings** — hotkey, speed (with German/English test buttons), voice per language,
-    fallback language, mid-text switching, unload delay. Saved immediately to
-    `~/.config/sinread/config.json`.
-- Closing the window only hides it; the hotkey keeps working. Use **Quit Sinread** to stop
-  it entirely. Pressing `Numpad +` afterwards starts it again automatically.
+
+### Opening the window (only for settings and status)
+
+Any one of these — they all do the same thing:
+
+1. Click the **Start button** in the bottom-left corner of the taskbar (ArcMenu), type
+   `Sinread`, press Enter.
+2. Double-click the **Sinread** icon on your desktop.
+3. Run this in a terminal:
+   ```bash
+   ~/Sinread/sinread-trigger show
+   ```
+
+The window has two tabs:
+
+- **Status** — what it is doing, and whether the model is resident, with the unload
+  countdown running down in front of you.
+- **Settings** — hotkey, speed (with German/English test buttons), voice per language,
+  fallback language, mid-text switching, unload delay. Saved immediately to
+  `~/.config/sinread/config.json`.
+
+Closing the window only hides it; the hotkey keeps working. Use **Quit Sinread** to stop it
+entirely. Pressing `Numpad +` afterwards starts it again automatically.
 
 ## The model's lifetime
 
