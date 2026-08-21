@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Sinread
+GenericName=Read Selection Aloud
+Comment=Read the text you have selected out loud — offline, German and English
+Exec=/usr/bin/python3 /home/sinep/Sinread/sinread.py --show
+Icon=audio-speakers
+Terminal=false
+Categories=Utility;Accessibility;AudioVideo;
+Keywords=tts;speech;read;aloud;voice;offline;german;english;vorlesen;
+StartupNotify=false
