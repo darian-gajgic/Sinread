@@ -34,6 +34,13 @@ _SCAN_SCHEMAS = (
 
 # Bare keys that normal typing and navigation depend on. Binding one of these globally takes
 # it away from every other app, so the Settings tab asks for confirmation first.
+# Bare punctuation keysyms print a character, so binding one steals it from typing exactly
+# the way a letter would — but their names are words, so the len()==1 test below misses them.
+_PUNCTUATION = {
+    "plus", "minus", "comma", "period", "slash", "backslash", "semicolon", "apostrophe",
+    "grave", "bracketleft", "bracketright", "equal", "numbersign", "less", "asterisk",
+    "ssharp", "acute", "adiaeresis", "odiaeresis", "udiaeresis",
+}
 _TYPING_KEYS = {
     "space", "Return", "KP_Enter", "Tab", "BackSpace", "Delete", "Escape",
     "Left", "Right", "Up", "Down", "Home", "End", "Page_Up", "Page_Down",
@@ -140,17 +147,30 @@ def risky(binding: str) -> str | None:
     if key in _TYPING_KEYS:
         return f"“{key}” is used for typing and navigation"
     if key.startswith("KP_"):
-        return f"“{key}” is a numpad key"
+        return None          # the numpad duplicates keys you already have — safe to take
+    if key in _PUNCTUATION:
+        return f"“{_KEY_LABELS.get(key, key)}” is a normal typing key"
     return None
 
 
+# X11 keysyms whose name is not what is printed on the key.
+_KEY_LABELS = {
+    "KP_Add": "Numpad +", "KP_Subtract": "Numpad -", "KP_Multiply": "Numpad *",
+    "KP_Divide": "Numpad /", "KP_Enter": "Numpad Enter", "KP_Decimal": "Numpad .",
+    "plus": "+", "minus": "-", "comma": ",", "period": ".", "slash": "/",
+    "backslash": "\\", "semicolon": ";", "apostrophe": "'", "grave": "`",
+    "bracketleft": "[", "bracketright": "]", "equal": "=", "numbersign": "#",
+    "less": "<", "space": "Space", "Return": "Enter",
+}
+
+
 def pretty(binding: str) -> str:
-    """'<Ctrl><Super>t' -> 'Ctrl + Super + T';  'F9' -> 'F9'."""
+    """'<Ctrl><Super>t' -> 'Ctrl + Super + T';  'KP_Add' -> 'Numpad +'."""
     if not binding:
         return "(none)"
     mods, key = _split(binding)
     order = [m for m in ("Ctrl", "Shift", "Alt", "Super") if m in mods]
-    label = key.upper() if len(key) == 1 else key
+    label = _KEY_LABELS.get(key) or (key.upper() if len(key) == 1 else key)
     return "  +  ".join(order + [label])
 
 

@@ -66,7 +66,7 @@ def confirm(parent, th: Theme, title: str, message: str,
 class HotkeyCapture(ttk.Frame):
     """Click, press any key or combination, and it becomes the GNOME shortcut.
 
-    A single key (F8, Pause, Insert …) is just as valid as a combination — no modifier is
+    A single key (Numpad +, F8, Pause …) is just as valid as a combination — no modifier is
     required. Keys that normal typing depends on still work, but ask for confirmation first.
     """
 
@@ -135,7 +135,7 @@ class HotkeyCapture(ttk.Frame):
                 self, self.th, "Use a typing key as the hotkey?",
                 f"{warning}. If you bind it, pressing it will read the selection instead of "
                 f"typing — in every app, not just this one.\n\n"
-                f"Keys like F8, Pause, Insert or Menu are safer single-key choices."):
+                f"Keys like the numpad keys, F8, Pause or Menu are safer single-key choices."):
             self._report(None, "cancelled")
             return "break"
 
@@ -252,7 +252,7 @@ class SettingsTab(ttk.Frame):
 
         section("Hotkey")
         hint("Select text in any app, then press this to read it aloud.\n"
-             "Press it again while reading to stop. A single key works — F8, Pause, "
+             "Press it again while reading to stop. A single key works — Numpad +, F8, Pause "
              "Insert and Menu are free ones.")
         self.capture = HotkeyCapture(self, th, cfg["hotkey"], self._on_hotkey)
         self.capture.grid(row=row, column=0, columnspan=3, sticky="w", pady=(0, S(4)))

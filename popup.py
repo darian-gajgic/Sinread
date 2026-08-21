@@ -221,14 +221,14 @@ if __name__ == "__main__":
     demo = [(0, lambda: p.show_busy())]
     for i, (lang, s) in enumerate(SENTS):
         demo.append((1500 + i * 1800,
-                     lambda i=i, lang=lang, s=s: p.show_reading(i, len(SENTS), lang, s, "F8")))
+                     lambda i=i, lang=lang, s=s: p.show_reading(i, len(SENTS), lang, s, "Numpad +")))
     demo += [
         (1500 + len(SENTS) * 1800, lambda: p.show_reading(2, len(SENTS), "en", SENTS[2][1],
-                                                          "F8", paused=True)),
+                                                          "Numpad +", paused=True)),
         (1500 + len(SENTS) * 1800 + 1800, lambda: p.show_done(len(SENTS), len(SENTS))),
         (1500 + len(SENTS) * 1800 + 4200, lambda: p.show_note("Model unloaded — VRAM free")),
         (1500 + len(SENTS) * 1800 + 7000, lambda: p.show_error("No text selected.\n"
-                                                               "Highlight something, then press F8.")),
+                                                               "Highlight something, then press Numpad +.")),
         (1500 + len(SENTS) * 1800 + 11000, root.destroy),
     ]
     for ms, fn in demo:

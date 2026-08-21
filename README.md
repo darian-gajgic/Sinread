@@ -4,7 +4,7 @@ Select text anywhere, press a key, and it is read out loud — in the language i
 in. Everything runs locally on the CPU: no internet, no API keys, and **no VRAM at any
 point**, so your GPU stays free for other models.
 
-Default hotkey: **`F8`**  ·  press it again while it reads to stop.
+Default hotkey: **`Numpad +`**  ·  press it again while it reads to stop.
 
 ## How it decides the language
 
@@ -38,10 +38,10 @@ to the app menu.
 
 ## Using it
 
-- **Read**: highlight text in any app → press `F8`. A pill appears at the right edge showing
+- **Read**: highlight text in any app → press `Numpad +`. A pill appears at the right edge showing
   the language, the sentence being spoken, and progress.
-- **Stop**: press `F8` again. Audio cuts immediately.
-- **Pause / resume**: the buttons in the main window, or `sinread-trigger pause`. `F8`
+- **Stop**: press `Numpad +` again. Audio cuts immediately.
+- **Pause / resume**: the buttons in the main window, or `sinread-trigger pause`. `Numpad +`
   resumes from a pause rather than stopping.
 - **Main window**: launch *Sinread* from the app menu, or `./sinread-trigger show`.
   - **Status** — what it is doing, and whether the model is resident, with the unload
@@ -50,7 +50,7 @@ to the app menu.
     fallback language, mid-text switching, unload delay. Saved immediately to
     `~/.config/sinread/config.json`.
 - Closing the window only hides it; the hotkey keeps working. Use **Quit Sinread** to stop
-  it entirely. Pressing `F8` afterwards starts it again automatically.
+  it entirely. Pressing `Numpad +` afterwards starts it again automatically.
 
 ## The model's lifetime
 

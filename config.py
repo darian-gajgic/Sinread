@@ -14,9 +14,9 @@ CONFIG_PATH = CONFIG_DIR / "config.json"
 
 DEFAULTS = {
     # --- behaviour ---
-    # A single key is a valid shortcut; F8 is free on this desktop (wisprflow holds
-    # <Ctrl><Super>space, Sinlate holds KP_Subtract) and needs no modifiers.
-    "hotkey": "F8",
+    # A single key is a valid shortcut. Numpad + sits next to the numpad - that Sinlate
+    # uses, and neither collides with typing (wisprflow holds <Ctrl><Super>space).
+    "hotkey": "KP_Add",
     # Piper's native pace is 1.0; this is the pace the voice was tuned to by ear.
     "speed": 1.7,
     # Voice per language. Relative paths resolve against the app dir. Every voice here is

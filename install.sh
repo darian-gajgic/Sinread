@@ -76,7 +76,7 @@ for tool in wl-paste pw-play; do
     || echo "    WARNING: $tool not found"
 done
 
-KEY="$(python3 -c "import sys;sys.path.insert(0,'$HERE');from config import load_config;print(load_config()['hotkey'])")"
+KEY="$(python3 -c "import sys;sys.path.insert(0,'$HERE');from config import load_config;import hotkey;print(hotkey.pretty(load_config()['hotkey']))")"
 cat <<EOF2
 
 Done.
