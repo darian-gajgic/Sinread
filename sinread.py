@@ -34,6 +34,9 @@ from theme import OKC, REC, SUBTLE, Theme, apply_ttk_style
 RUNTIME = os.environ.get("XDG_RUNTIME_DIR", f"/run/user/{os.getuid()}")
 SOCKET_PATH = os.path.join(RUNTIME, "sinread.sock")
 WATCHDOG_TICK = 2.0        # how often the idle timer is checked
+# If preparation has not produced a sentence within this long something is wedged, and the
+# next hotkey press should reset rather than be swallowed.
+BUSY_RESET = 25.0
 UI_TICK = 500              # ms between Status-tab refreshes
 
 
@@ -68,6 +71,7 @@ class SinreadApp:
         # this a second press during that window would start a second read instead of
         # stopping the first.
         self._busy = False
+        self._busy_since = 0.0
         self._gen = 0          # bumped by every read/stop; cancels an in-flight grab
         self._lang = self.cfg["default_lang"]
         self._sentence = ""
@@ -189,6 +193,8 @@ class SinreadApp:
     def _handle_state(self, kind: str, info: dict):
         if kind == "grabbed":
             self.popup.show_busy("Preparing…")
+        elif kind == "loading":
+            self.popup.show_busy("Loading voice…")
         elif kind == "start":
             self._lang = info.get("lang", self._lang)
             self._progress = (0, info.get("total", 1))
@@ -226,13 +232,23 @@ class SinreadApp:
         """The hotkey. Reading -> stop. Paused -> resume. Otherwise read the selection."""
         if self.speaker.paused:
             self.speaker.toggle_pause()
-        elif self.speaker.speaking or self._busy:
+        elif self.speaker.speaking:
             self.on_stop()
+        elif self._busy:
+            # Still preparing — no audio has started yet. A second press here means "come
+            # on", not "stop": people press again because nothing has happened, and
+            # throwing the work away leaves them with silence and no explanation. So keep
+            # preparing. The age check is the safety valve, so a wedged prepare can never
+            # make the hotkey feel dead.
+            if time.time() - self._busy_since > BUSY_RESET:
+                log("preparation wedged — resetting on second press")
+                self.on_stop()
         else:
             self.on_read()
 
     def on_read(self):
         self._busy = True
+        self._busy_since = time.time()
         self._gen += 1
         gen = self._gen
         self.popup.show_busy("Preparing…")
@@ -240,9 +256,15 @@ class SinreadApp:
                          args=(lambda: gen != self._gen,), daemon=True).start()
 
     def on_stop(self):
+        was_busy, speaking = self._busy, self.speaker.speaking
         self._busy = False
         self._gen += 1         # cancels a read still grabbing the selection
         self.speaker.stop()
+        if was_busy and not speaking:
+            # Cancelled before the first sentence. The worker thread notices only after its
+            # current step returns (grabbing the selection can take a second), so take the
+            # spinner down here rather than leaving it spinning on "Preparing…".
+            self.popup.show_done(0, 0)
 
     def on_pause(self):
         self.speaker.toggle_pause()

@@ -43,7 +43,9 @@ is not running yet the keypress starts it — you never have to launch it by han
 
 - **Read**: highlight text → press `Numpad +`. A pill appears at the right edge showing the
   language, the sentence being spoken, and progress.
-- **Stop**: press `Numpad +` again. Audio cuts immediately.
+- **Stop**: press `Numpad +` again *while it is speaking*. Audio cuts immediately.
+  Pressing again while it is still preparing is harmless — it keeps preparing rather than
+  throwing the work away.
 - **Pause / resume**: the buttons in the window, or `./sinread-trigger pause`. `Numpad +`
   resumes from a pause rather than stopping.
 
@@ -135,6 +137,7 @@ naked URL is read as "Link zu example.com" instead of letter by letter.
 |---|---|
 | Hotkey does nothing | `./sinread-trigger ping` → `pong`. Then `python3 hotkey.py show`. |
 | Nothing is read | Is the text still highlighted? Sinread reads the primary selection, and falls back to the clipboard. |
+| Stuck on "Preparing…" | The first read after an idle unload spends a second or two spawning the worker and loading the voice — the pill says *Loading voice…* while it does. Longer than ~25 s means something is wedged: press the hotkey again to reset it, then check `~/.cache/sinread/worker.log`. |
 | No sound | `./sinread-trigger status`, then `~/.cache/sinread/worker.log`. |
 | Won't start | `~/.cache/sinread/sinread.log`. |
 | Wrong language | Settings → *If unsure, read as*, for selections too short to classify. |

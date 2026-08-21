@@ -138,8 +138,11 @@ class ReadingPopup:
         self._cancel_hide()        # a read stays on screen for as long as it is speaking
 
     def show_done(self, spoken: int, total: int):
-        note = "Finished" if spoken >= total else f"Stopped  ·  {spoken} of {total}"
-        self._render(note, OKC if spoken >= total else SUBTLE, "", FG, progress=1.0)
+        if total == 0:
+            self._render("Stopped", SUBTLE, "", FG)      # cancelled before it began
+        else:
+            note = "Finished" if spoken >= total else f"Stopped  ·  {spoken} of {total}"
+            self._render(note, OKC if spoken >= total else SUBTLE, "", FG, progress=1.0)
         self._arm_hide(min(2.5, self.cfg["popup_seconds"]))
 
     def show_error(self, message: str):

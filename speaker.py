@@ -286,6 +286,9 @@ class Speaker:
         cancelled = should_cancel or (lambda: False)
         text, source = grab_selection()
         if cancelled():
+            # Announce it: the caller is showing a "Preparing…" spinner that only a
+            # terminal state takes down.
+            self.on_state("stopped", spoken=0, total=0)
             return
         if not text:
             self.on_state("error", message="No text selected.\n"
@@ -294,6 +297,7 @@ class Speaker:
         truncated = len(text) > self.cfg["max_chars"]
         log(f"{source}: {len(text)} chars{' (truncated)' if truncated else ''}")
         if cancelled():
+            self.on_state("stopped", spoken=0, total=0)
             return
         self.on_state("grabbed", chars=len(text), source=source, truncated=truncated)
         self.speak(text)
@@ -341,6 +345,10 @@ class Speaker:
             dominant, _ = langdetect.detect(" ".join(segs[:40]), self.cfg["default_lang"])
             self.on_state("start", total=len(segs), lang=dominant)
 
+            # Spawning the worker and loading a voice takes a second or two. Say so —
+            # a spinner that sits on "Preparing…" for that long reads as a hang.
+            if not self.model_loaded():
+                self.on_state("loading")
             proc = self._ensure_worker()
             player = self._start_player()
 
