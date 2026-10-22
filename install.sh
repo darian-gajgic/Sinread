@@ -58,7 +58,7 @@ python3 "$HERE/hotkey.py" apply
 
 echo "==> installing the app-menu entry"
 mkdir -p "$HOME/.local/share/applications"
-sed "s#/home/sinep/Sinread#$HERE#g" "$HERE/sinread.desktop" \
+sed "s#/home/sinep/AI/projects/Sinread#$HERE#g" "$HERE/sinread.desktop" \
   > "$HOME/.local/share/applications/sinread.desktop"
 chmod 644 "$HOME/.local/share/applications/sinread.desktop"
 if command -v update-desktop-database >/dev/null 2>&1; then
