@@ -101,7 +101,7 @@ def find_python(cfg: dict) -> str:
     for cand in CANDIDATE_PYTHONS:
         if cand.exists() and _has_piper(cand):
             return str(cand)
-    raise SpeakError("No Python with Piper found.\nRun ./install.sh in ~/AI/projects/Sinread.")
+    raise SpeakError("No Python with Piper found.\nRun ./install.sh in ~/AI/coding-private/Sinread.")
 
 
 def pick_player() -> list:

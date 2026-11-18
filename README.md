@@ -28,7 +28,7 @@ already there as a lighter alternative.
 ## Install
 
 ```bash
-cd ~/AI/projects/Sinread
+cd ~/AI/coding-private/Sinread
 ./install.sh
 ```
 
@@ -58,7 +58,7 @@ Any one of these — they all do the same thing:
 2. Double-click the **Sinread** icon on your desktop.
 3. Run this in a terminal:
    ```bash
-   ~/AI/projects/Sinread/sinread-trigger show
+   ~/AI/coding-private/Sinread/sinread-trigger show
    ```
 
 The window has two tabs:
@@ -152,6 +152,6 @@ python3 speaker.py "Read this without the GUI."
 ## Uninstall
 
 ```bash
-python3 ~/AI/projects/Sinread/hotkey.py remove
+python3 ~/AI/coding-private/Sinread/hotkey.py remove
 rm -f ~/.local/share/applications/sinread.desktop ~/Desktop/sinread.desktop
 ```
